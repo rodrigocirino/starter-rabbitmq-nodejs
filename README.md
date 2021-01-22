@@ -1,9 +1,9 @@
-## Run RabbitMQ
+## Start RabbitMQ with Docker
 
 ```bash
 # Run with docker
-docker run -d --hostname my-rabbit --name rabbitmq3 -p 15672:15672 -p 5672:5672 rabbitmq:3-management
-docker start -i rabbitmq3
+docker run -d --hostname rabbitmqhost --name rabbitmq3 -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+docker start -ai rabbitmq3
 
 # Open
 http://localhost:15672/
