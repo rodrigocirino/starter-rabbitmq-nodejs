@@ -11,6 +11,11 @@ docker run -it -p 15672:15672 -p 5672:5672 --hostname rabbithost --name rabbitmq
 docker logs -f rabbitmq3
 docker start -ait rabbitmq3
 
+# Open
+http://localhost:15672/
+User: guest
+Password: guest
+
 ## Comands for rabbitmq admin
 # http://blog.aeciopires.com/instalando-o-rabbitmq-via-docker/
 # list
@@ -29,15 +34,9 @@ rabbitmqctl set_cluster_name rabbit@rabbitmq-master
 rabbitmqadmin -H localhost -u guest -p SENHA export /tmp/rabbit.config
 # Importando a configuração (lembre-se de montar um diretório ou volume comum ao conteiner e ao host):
 rabbitmqadmin -q import /tmp/rabbit.config
-
-
-# Open
-http://localhost:15672/
-User: guest
-Password: guest
 ```
 
-## Run Locally
+## Run Locally with npm
 
 ```bash
 # duplicate the env properties file
@@ -51,7 +50,7 @@ npm run dev
 http://localhost:8080
 ```
 
-### Run in Docker
+### Run with Docker
 
 ```bash
 # duplicate the env properties file
