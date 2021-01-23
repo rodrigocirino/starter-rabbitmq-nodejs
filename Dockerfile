@@ -13,8 +13,8 @@ COPY . .
 
 EXPOSE 8080
 
-# ENTRYPOINT ["npm", "start"]
-CMD ["npm", "run", "dev"]
+ENTRYPOINT ["npm", "start"]
+# CMD ["npm", "run", "dev"]
 
 
 

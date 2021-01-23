@@ -2,8 +2,34 @@
 
 ```bash
 # Run with docker
-docker run -d --hostname rabbitmqhost --name rabbitmq3 -p 15672:15672 -p 5672:5672 rabbitmq:3-management
-docker start -ai rabbitmq3
+# duplicate the env properties file
+cp .env.development .env
+# Crie um volume externo
+mkdir -p /devops/rabbitmq/data
+# Rode montando os volumes
+docker run -it -p 15672:15672 -p 5672:5672 --hostname rabbithost --name rabbitmq3 --restart=always --mount "type=bind,source=$(pwd)/devops/rabbitmq/data,target=/var/lib/rabbitmq" rabbitmq:3.8-management
+docker logs -f rabbitmq3
+docker start -ait rabbitmq3
+
+## Comands for rabbitmq admin
+# http://blog.aeciopires.com/instalando-o-rabbitmq-via-docker/
+# list
+$ docker exec -it rabbitmq /bin/bash
+rabbitmqadmin list exchanges
+rabbitmqadmin list queues
+# Adicionando um exchange com o nome ‘app1‘ e o tipo ‘direct‘ no vhost ‘/‘:
+rabbitmqadmin declare exchange name=app1 type=direct durable=true --vhost=/
+# Adicionando uma fila com o nome ‘logs_app1‘, durável e o tipo ‘direct‘ no vhost ‘/‘
+rabbitmqadmin declare queue name=logs_app1 durable=true --vhost=/
+# Adicionando um bind entre o exchange ‘app1‘ e a queue ‘logs_app1‘ com a routing_key ‘app1-logs_app1‘:
+rabbitmqadmin declare binding source=app1 destination=logs_app1 routing_key=app1-logs_app1
+# Definindo o nome do cluster RabbitMQ para ‘rabbit@rabbitmq-master’:
+rabbitmqctl set_cluster_name rabbit@rabbitmq-master
+# Exportando a configuração (lembre-se de salvar em um diretório ou volume comum ao conteiner e ao host)
+rabbitmqadmin -H localhost -u guest -p SENHA export /tmp/rabbit.config
+# Importando a configuração (lembre-se de montar um diretório ou volume comum ao conteiner e ao host):
+rabbitmqadmin -q import /tmp/rabbit.config
+
 
 # Open
 http://localhost:15672/

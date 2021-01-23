@@ -2,11 +2,16 @@ const router = require("express").Router();
 const amqp = require("amqplib");
 
 var channel;
-const queue = "rabbit";
+const queue = "fila01";
+const exchange = "exchange01";
+const routingkey01 = "routingkey01";
+const routingkey02 = "routingkey02";
 
 async function connect() {
   try {
-    const conn = await amqp.connect("amqp://localhost:5672/");
+    const conn = await amqp.connect(
+      process.env.AMQP_URL || "amqp://localhost:5672/"
+    );
     channel = await conn.createChannel();
     await channel.assertQueue(queue, { durable: true });
 
