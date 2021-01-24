@@ -1,18 +1,45 @@
 const router = require("express").Router();
 const consumer = require("../amqp/consumer");
 
-router.route("/").get((req, res) => {
+const consumerQueue = "test_increment";
+// const consumerTag = "test_consumer";
+// var channel;
+
+const bindMessage = (channel, message) => {};
+
+const bindConsumer = () => {
   consumer
-    .connection()
-    .then((result) => {
-      console.log(`Log -> ${result}`);
+    .startup()
+    .then((channel) => {
+      console.log("Running consumer");
+
+      channel.consume(consumerQueue, (message) => {
+        let msgJson = JSON.parse(message.content.toString());
+
+        msgJson.forEach(function (obj) {
+          console.log(
+            " [=] Received %s %o",
+            message.fields.routingKey,
+            JSON.stringify(obj)
+          );
+          if (obj.company == "SBT") {
+            //return is ok leave the msg
+            channel.ack(message);
+            console.log(" [-] Dequeuing %s", obj.company);
+          }
+        });
+      });
     })
     .catch((err) => {
       console.log(`Error -> ${err}`);
     });
+};
+
+router.route("/").get((req, res) => {
+  bindConsumer();
+
   console.log("\n");
-  msg = `Running ${__dirname}`;
-  res.json({ msg });
+  res.json();
 });
 
 module.exports = router;
