@@ -5,7 +5,14 @@ const consumerQueue = "test_increment";
 // const consumerTag = "test_consumer";
 // var channel;
 
-const bindMessage = (channel, message) => {};
+const bindMessage = (channel, message) => {
+  let obj = message.content.toString();
+  console.log(
+    " [=] Received %s %o",
+    message.fields.routingKey,
+    JSON.stringify(obj)
+  );
+};
 
 const bindConsumer = () => {
   consumer
@@ -14,7 +21,9 @@ const bindConsumer = () => {
       console.log("Running consumer");
 
       channel.consume(consumerQueue, (message) => {
-        let msgJson = JSON.parse(message.content.toString());
+        bindMessage(channel, message);
+
+        /*let msgJson = JSON.parse(message.content.toString());
 
         msgJson.forEach(function (obj) {
           console.log(
@@ -27,7 +36,7 @@ const bindConsumer = () => {
             channel.ack(message);
             console.log(" [-] Dequeuing %s", obj.company);
           }
-        });
+        });*/
       });
     })
     .catch((err) => {
