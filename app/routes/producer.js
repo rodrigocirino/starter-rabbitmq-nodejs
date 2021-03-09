@@ -1,27 +1,15 @@
 const router = require("express").Router();
 const amqp = require("amqplib");
+const config = require("../config/environment");
 
 var channel;
 const queue = "fila01";
 const exchange = "exchange01";
-const routingkey01 = "routingkey01";
-const routingkey02 = "routingkey02";
-
-const rabbSettings = {
-  protocol: process.env.AMQP_PROTOCOL,
-  hostname: process.env.AMQP_HOSTNAME,
-  port: process.env.AMQP_PORT,
-  //below is default and not necessary
-  //username: "guest",
-  //password: "guest",
-  //vhost: "/",
-  //authMechanism: ["PLAIN", "AMQPLAIN", "EXTERNAL"],
-};
 
 async function connect() {
   try {
     //connect
-    const conn = await amqp.connect(rabbSettings);
+    const conn = await amqp.connect(config.rabbitmq.url);
 
     //channel and queue
     channel = await conn.createChannel();
@@ -48,7 +36,7 @@ router.route("/").get((req, res) => {
   connect();
 
   msg = `Running ${__dirname}`;
-  res.json({ msg, rabbSettings });
+  res.json({ msg });
 });
 
 module.exports = router;

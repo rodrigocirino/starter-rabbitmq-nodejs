@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    networks:
+      - app-network
+    ports:
+      - 5672:5672 # amqp host port
+      - 15672:15672 # amqp admin console
+    hostname: rabbitmq
+
+  nodeapp:
+    container_name: nodeapp
+    build:
+      context: ./app
+    ports:
+      - "8080:8080" # node server http port
+      - "9229:9229" # node inspect debug port
+    networks:
+      - app-network
+    restart: on-failure
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672 # protocol://user:pass@host:port
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    volumes:
+      - ./config:/usr/src/app/config
+      # disable below if you want run locally with nodemon hotreload support
+      # - ./app:/usr/src/app # need the same as WORKDIR and obrigatory run {npm install} localy! to map local to remoto
+
+networks:
+  app-network:
+    driver: bridge
+

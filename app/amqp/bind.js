@@ -1,9 +1,7 @@
 const router = require("express").Router();
-const consumer = require("../amqp/consumer");
+const consumer = require("./consumer");
 
 const consumerQueue = "test_increment";
-// const consumerTag = "test_consumer";
-// var channel;
 
 const bindMessage = (channel, message) => {
   let obj = message.content.toString();

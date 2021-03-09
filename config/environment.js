@@ -1,6 +1,6 @@
 module.exports = {
   rabbitmq: {
-    url: process.env.AMQP_URL || "amqp://localhost:5672",
+    url: process.env.RABBITMQ_URL || "amqp://WRONG_URL_TO_CONNECT_RABBITMQ:5672",
     exchange: {
       name: "stock",
       type: "direct",

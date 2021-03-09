@@ -1,8 +1,24 @@
 const router = require("express").Router();
 const amqp = require("amqplib");
-const config = require("../../config/environment");
+const config = require("../config/environment");
 
 let channel;
+
+/*amqp.connect(rabbSettings = {
+  protocol: "amqp",
+  hostname: "rabbitmq",
+  port: "5672",
+  // protocol: 'amqp',
+  // hostname: 'localhost',
+  // port: 5672,
+  // username: 'guest',
+  // password: 'guest',
+  // locale: 'en_US',
+  // frameMax: 0,
+  // heartbeat: 0,
+  // vhost: '/',
+  authMechanism: ["PLAIN", "AMQPLAIN", "EXTERNAL"],
+})*/
 
 const connection = async () => {
   try {

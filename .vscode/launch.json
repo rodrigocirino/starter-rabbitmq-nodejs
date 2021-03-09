@@ -9,7 +9,7 @@
       "request": "attach",
       "name": "Attach to Port",
       "address": "localhost",
-      "port": 9000
+      "port": 9229
     }
   ]
 }

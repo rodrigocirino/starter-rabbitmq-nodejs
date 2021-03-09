@@ -1,5 +1,10 @@
 const amqp = require("amqplib");
-const config = require("../../config/environment");
+const config = require("../config/environment");
+
+/*
+ * Connect, createChannel, setup (asserts, binds)
+ * 
+ */
 
 const consumerQueue = "test_increment";
 

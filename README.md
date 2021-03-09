@@ -1,3 +1,31 @@
+# RabbitMQ with Docker
+
+# Run in production mode
+```bash
+$ docker-compose up
+
+# Test
+http://localhost:8080/exchange
+http://localhost:8080/consumer
+http://localhost:8080/bind
+```
+
+## Run in development mode
+
+```bash
+# Run
+./install.sh
+
+## Open
+http://localhost:15672/
+User: guest
+Password: guest
+
+## See commands for rabbitmq admin
+http://blog.aeciopires.com/instalando-o-rabbitmq-via-docker/
+```
+
+ <!-- 
 ## Start RabbitMQ with Docker
 
 ```bash
@@ -86,3 +114,4 @@ docker volume rm $(docker volume ls -q)
 
 # indicated to use the same version of node and npm in both environments, local and remote.
 ```
+... -->

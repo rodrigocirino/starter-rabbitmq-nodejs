@@ -1,14 +1,14 @@
 const router = require("express").Router();
 const amqp = require("amqplib");
+const config = require("../config/environment");
 
 var channel;
 const queue = "rabbit";
 
 async function connect() {
   try {
-    const conn = await amqp.connect(
-      process.env.AMQP_HOST || "amqp://localhost:5672/"
-    );
+    const conn = await amqp.connect(config.rabbitmq.url);
+
     channel = await conn.createChannel();
     await channel.assertQueue(queue, { durable: true });
 

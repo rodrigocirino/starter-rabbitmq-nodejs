@@ -17,7 +17,7 @@ const exchangeRoute = require("./exchange");
 router.use("/exchange", exchangeRoute);
 
 //bind
-const bindRoute = require("./bind");
+const bindRoute = require("./../amqp/bind");
 router.use("/bind", bindRoute);
 
 module.exports = router;
