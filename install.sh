@@ -1,6 +1,10 @@
 #!/bin/bash
 
-rm -rf app/config ;  rm -rf app/node_modules ; rm -f app/package-lock.json ;
+# clean
+find . -name 'node_modules' -exec rm -rfv {} \;
+find . -type f -name "package-lock.json" -exec rm -fv {} \; 
+
+# install
 cd app
 npm install
 cd ..
